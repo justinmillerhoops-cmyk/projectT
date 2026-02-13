@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date as dt_date, datetime as dt_datetime
+from datetime import date, datetime
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -19,11 +19,11 @@ class PerformanceRow(BaseModel):
     altitude_flag: bool | None = None
     wind_legal: bool | None = None
     meet_name: str | None = None
-    meet_date: dt_date | None = None
+    meet_date: date | None = None
     scope: str
     source_file: str
-    file_modified_at: dt_datetime
-    ingested_at: dt_datetime
+    file_modified_at: datetime
+    ingested_at: datetime
     confidence: Literal["HIGH", "LOW"] = "HIGH"
     issues: list[str] = Field(default_factory=list)
 
@@ -33,12 +33,12 @@ class FileClassification(BaseModel):
     season: Literal["indoor", "outdoor"]
     gender: Literal["M", "F", "BOTH"] = "BOTH"
     scope: str
-    date: dt_date | None = None
+    date: date | None = None
     year: int | None = None
 
 
 class IngestAudit(BaseModel):
-    ingest_timestamp: dt_datetime
+    ingest_timestamp: datetime
     files_processed: int
     rows_created: int
     warnings: list[str] = Field(default_factory=list)
