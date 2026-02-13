@@ -4,18 +4,12 @@ Deterministic Streamlit app for BIG EAST and NCAA ranking/scoring workflows. No 
 
 ## Admin workflow (Google Drive synced folder)
 
-
-> For Streamlit-hosted deployment, `app.data_folder` should be an app-local directory (default `data/input`). Google Drive web links cannot be scanned directly.
->
-> Use **Refresh & Status -> Admin Uploads** to upload weekly HTML/CSV exports through the Streamlit UI.
-
 1. Save/Export ranking pages as HTML.
-2. If hosted on Streamlit Cloud: use the in-app **Admin Uploads** control to place files into `app.data_folder`.
-3. If self-hosted/server deployment: drop files directly into `app.data_folder`.
-4. Preferred naming:
+2. Drop files into `data/input` (or change `app.data_folder` in `config.toml`).
+3. Preferred naming:
    - `current__{season}__{gender}__{scope}__{date}__.html`
    - `confmeet__BIGEAST__{season}__{year}__.html`
-5. Open app and click **Refresh Data**.
+4. Open app and click **Refresh Data**.
 
 ## Running
 

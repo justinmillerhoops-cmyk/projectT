@@ -1,6 +1,6 @@
 [app]
 data_folder = "data/input"
-coach_emails = ["jmille107@villanova.edu"]
+coach_emails = ["jmille107@villanova.edu", ""]
 viewer_password = ""
 scoring_places = 8
 

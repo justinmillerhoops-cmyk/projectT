@@ -88,26 +88,6 @@ def do_refresh() -> tuple[bool, str]:
     return True, f"Refresh complete: {len(df)} rows."
 
 
-
-
-def render_admin_uploads(data_dir: Path) -> None:
-    st.subheader("Admin Uploads (for Streamlit-hosted use)")
-    st.caption("Upload HTML/CSV exports here when running on Streamlit Cloud. Files are saved into app.data_folder.")
-    uploads = st.file_uploader(
-        "Upload ranking exports",
-        type=["html", "csv"],
-        accept_multiple_files=True,
-        key="admin_uploads",
-    )
-    if uploads:
-        data_dir.mkdir(parents=True, exist_ok=True)
-        saved = 0
-        for up in uploads:
-            target = data_dir / up.name
-            target.write_bytes(up.getbuffer())
-            saved += 1
-        st.success(f"Saved {saved} file(s) to {data_dir}.")
-
 def render_unclassified():
     st.subheader("Unclassified Files")
     scanned = scan_folder(DATA_DIR, CLASS_FILE)
@@ -174,7 +154,6 @@ def main():
         audits = pd.DataFrame(read_recent_audits(20))
         st.subheader("Ingest Audit Log")
         st.dataframe(audits, use_container_width=True)
-        render_admin_uploads(DATA_DIR)
         render_unclassified()
 
     conf = load_cached("conf_ranked")
