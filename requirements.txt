@@ -1,0 +1,9 @@
+streamlit
+pandas
+beautifulsoup4
+lxml
+pydantic
+toml
+pyarrow
+reportlab
+pytest
