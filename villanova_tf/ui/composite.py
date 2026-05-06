@@ -107,6 +107,7 @@ def render_composite(df: pd.DataFrame, season: str, gender_filter: str, event_fi
             "Name": name,
             "Year": row.get("year", ""),
             "Event(s)": row.get("events", row.get("event", "")),
+            "SB": row.get("mark_display") or row.get("mark", ""),
             "WA Pts": row.get("wa_points", ""),
             "Prev SB": row.get("prev_mark") or "—",
             "Conf Rank": row.get("conf_rank", ""),

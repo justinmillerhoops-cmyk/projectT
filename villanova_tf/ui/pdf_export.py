@@ -99,7 +99,7 @@ def _fmt_bubble_gap(val) -> str:
 def _composite_table_data(comp_df: pd.DataFrame, season: str) -> list[list]:
     show_regional = season == "outdoor"
     headers = [
-        "Rank", "Name", "Year", "Event(s)", "WA Pts", "Prev SB",
+        "Rank", "Name", "Year", "Event(s)", "SB", "WA Pts", "Prev SB",
         "Bubble Δ", "Conf",
         "Reg" if show_regional else None, "Natl",
     ]
@@ -112,6 +112,7 @@ def _composite_table_data(comp_df: pd.DataFrame, season: str) -> list[list]:
             row.get("name", ""),
             row.get("year", ""),
             row.get("events", row.get("event", "")),
+            row.get("mark_display") or row.get("mark", ""),
             str(row.get("wa_points", "")),
             row.get("prev_mark") or "—",
             _fmt_bubble_gap(row.get("bubble_gap_points")),
@@ -230,15 +231,15 @@ def generate_pdf(
     else:
         gender_sections = [("M", "Men's"), ("F", "Women's")]
 
-    # Composite column widths (Rank, Name, Yr, Event(s), WA Pts, Prev SB, Bubble Δ, [Reg,] Conf, Natl)
+    # Composite column widths (Rank, Name, Yr, Event(s), SB, WA Pts, Prev SB, Bubble Δ, [Reg,] Conf, Natl)
     if season == "outdoor":
-        comp_col_widths = [0.38 * inch, 1.3 * inch, 0.45 * inch, 1.2 * inch,
-                           0.55 * inch, 0.55 * inch, 0.55 * inch,
-                           0.45 * inch, 0.45 * inch, 0.45 * inch]
+        comp_col_widths = [0.35 * inch, 1.2 * inch, 0.4 * inch, 1.0 * inch,
+                           0.65 * inch, 0.5 * inch, 0.65 * inch, 0.5 * inch,
+                           0.4 * inch, 0.4 * inch, 0.4 * inch]
     else:
-        comp_col_widths = [0.38 * inch, 1.3 * inch, 0.45 * inch, 1.2 * inch,
-                           0.55 * inch, 0.55 * inch, 0.55 * inch,
-                           0.45 * inch, 0.45 * inch]
+        comp_col_widths = [0.35 * inch, 1.2 * inch, 0.4 * inch, 1.0 * inch,
+                           0.65 * inch, 0.5 * inch, 0.65 * inch, 0.5 * inch,
+                           0.4 * inch, 0.4 * inch]
 
     for g_code, g_label in gender_sections:
         # --- Composite section ---
