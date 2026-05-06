@@ -128,8 +128,9 @@ def render_athlete_profile(
     # Meet-by-meet table
     st.subheader("Meet-by-Meet Results")
     if all_results:
+        # Build full results rows first
         results_rows = []
-        for r in sorted(all_results, key=lambda x: x.get("meet_date", ""), reverse=True):
+        for r in all_results:
             event_norm = normalize_event(r.get("event_raw", ""))
             mark_str = r.get("mark", "")
             pts = wa_score(event_norm, gender, mark_str)
@@ -137,13 +138,47 @@ def render_athlete_profile(
                 "Date": r.get("meet_date", ""),
                 "Meet": r.get("meet", ""),
                 "Event": r.get("event_raw", ""),
+                "_event_norm": event_norm,
                 "Mark": mark_str,
+                "_wa_pts": pts or 0,
                 "Wind": r.get("wind", ""),
                 "Place": r.get("place", ""),
                 "Round": r.get("round", ""),
                 "WA Pts": pts or "",
             })
-        st.dataframe(pd.DataFrame(results_rows), use_container_width=True, hide_index=True)
+
+        results_df = pd.DataFrame(results_rows)
+
+        # Controls: event filter + sort
+        all_events = sorted(results_df["Event"].dropna().unique().tolist())
+        ctrl1, ctrl2 = st.columns(2)
+        with ctrl1:
+            event_sel = st.selectbox(
+                "Filter by event",
+                ["All events"] + all_events,
+                key="profile_event_filter",
+            )
+        with ctrl2:
+            sort_sel = st.selectbox(
+                "Sort by",
+                ["Date (newest first)", "Date (oldest first)", "Best mark (WA Pts)"],
+                key="profile_sort",
+            )
+
+        # Apply filter
+        if event_sel != "All events":
+            results_df = results_df[results_df["Event"] == event_sel]
+
+        # Apply sort
+        if sort_sel == "Date (newest first)":
+            results_df = results_df.sort_values("Date", ascending=False)
+        elif sort_sel == "Date (oldest first)":
+            results_df = results_df.sort_values("Date", ascending=True)
+        else:  # Best mark
+            results_df = results_df.sort_values("_wa_pts", ascending=False)
+
+        visible_cols = ["Date", "Meet", "Event", "Mark", "Wind", "Place", "Round", "WA Pts"]
+        st.dataframe(results_df[visible_cols], use_container_width=True, hide_index=True)
     else:
         st.info("No meet results available.")
 
