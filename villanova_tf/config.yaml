@@ -1,0 +1,139 @@
+# Villanova Track & Field Ranking Tool — Configuration
+# Edit list_ids each season to point to the current year's lists.
+
+season: "outdoor"  # default season: "indoor" or "outdoor"
+
+# ---------------------------------------------------------------------------
+# TFRRS list IDs — update at start of each season
+# ---------------------------------------------------------------------------
+list_ids:
+  big_east_outdoor: 5656
+  big_east_indoor: 5430
+  ncaa_east_outdoor: 5622
+  ncaa_national_outdoor: 5602
+  ncaa_national_indoor: 5352
+
+  # Last 5 completed championship seasons (oldest last) — for bubble reference
+  ncaa_outdoor_history: [5018, 4515, 4044, 3711, 3191]
+  ncaa_indoor_history: [4867, 4364, 3901, 3492, 3157]
+
+# Slugs for historical bubble reference lists (keyed by integer list ID).
+# Update when TFRRS renames a historical list.
+ncaa_outdoor_history_slugs:
+  5018: "2025_NCAA_Division_I_Outdoor_Qualifying_List"
+  4515: "2024_NCAA_Division_I_Rankings_FINAL"
+  4044: "2023_NCAA_Division_I_All_Schools_Rankings"
+  3711: "2022_NCAA_Division_I_Outdoor_Qualifying_FINAL"
+  3191: "2021_NCAA_Division_I_Outdoor_Qualifying_FINAL"
+
+ncaa_indoor_history_slugs:
+  4867: "2024_2025_NCAA_Division_I_Indoor_List_FINAL"
+  4364: "2023_2024_NCAA_Div_I_Indoor_Qualifying_FINAL"
+  3901: "2022_2023_NCAA_Div_I_Indoor_Qualifying_FINAL"
+  3492: "2021_2022_NCAA_Div_I_Indoor_Qualifying_FINAL"
+  3157: "2020_2021_NCAA_Div_I_Indoor_Qualifying_FINAL"
+
+list_slugs:
+  big_east_outdoor: "BIG_EAST_Outdoor_Performance_List"
+  big_east_indoor: "BIG_EAST_Indoor_Performance_List"
+  ncaa_east_outdoor: "2026_NCAA_Div_I_East_Outdoor_List"
+  ncaa_national_outdoor: "2026_NCAA_Division_I_Outdoor_Qualifying_List"
+  ncaa_national_indoor: "2025_2026_NCAA_Division_I_Indoor_List_FINAL"
+
+# Use tf.tfrrs.org for national/regional lists (they use ?gender= param)
+list_base_urls:
+  big_east_outdoor: "https://www.tfrrs.org"
+  big_east_indoor: "https://www.tfrrs.org"
+  ncaa_east_outdoor: "https://tf.tfrrs.org"
+  ncaa_national_outdoor: "https://tf.tfrrs.org"
+  ncaa_national_indoor: "https://tf.tfrrs.org"
+
+# ---------------------------------------------------------------------------
+# Villanova team slugs on TFRRS
+# ---------------------------------------------------------------------------
+team_slugs:
+  men: "PA_college_m_Villanova"
+  women: "PA_college_f_Villanova"
+
+# ---------------------------------------------------------------------------
+# Scraping rate limiting
+# ---------------------------------------------------------------------------
+rate_limit:
+  min_delay_seconds: 1.5
+  max_delay_seconds: 3.0
+  backoff_base: 2.0
+  backoff_max_retries: 4
+
+# ---------------------------------------------------------------------------
+# Ranking list cutoff — how many athletes to fetch per event per list.
+# TFRRS supports: 50, 100, 200, 500.
+# ---------------------------------------------------------------------------
+ranking_list_limit: 100
+
+# ---------------------------------------------------------------------------
+# Cache TTLs
+# ---------------------------------------------------------------------------
+cache:
+  ranking_list_ttl_hours: 24
+  roster_ttl_hours: 24
+  # Athlete detail cache invalidated when season best changes, not on TTL
+
+# ---------------------------------------------------------------------------
+# Athlete matcher
+# ---------------------------------------------------------------------------
+matching:
+  fuzzy_score_threshold: 85   # below this → flag for manual review
+
+# ---------------------------------------------------------------------------
+# Bubble reference
+# ---------------------------------------------------------------------------
+bubble:
+  reference_file: "data/bubble_reference.json"
+  years_to_average: 5
+
+# ---------------------------------------------------------------------------
+# PDF export
+# ---------------------------------------------------------------------------
+pdf:
+  school_name: "Villanova Track & Field"
+  logo_path: null   # optional path to logo image
+
+# ---------------------------------------------------------------------------
+# Event groups for UI filters
+# ---------------------------------------------------------------------------
+event_groups:
+  sprints:
+    - 60m
+    - 100m
+    - 200m
+    - 400m
+  mid_distance:
+    - 800m
+    - 1500m
+    - mile
+  distance:
+    - 3000m
+    - 5000m
+    - 10000m
+    - 3000sc
+  hurdles:
+    - 60h
+    - 100h
+    - 110h
+    - 400h
+  jumps:
+    - high_jump
+    - pole_vault
+    - long_jump
+    - triple_jump
+  throws:
+    - shot_put
+    - weight_throw
+    - discus
+    - hammer
+    - javelin
+  combined:
+    - heptathlon_women
+    - pentathlon_women
+    - decathlon_men
+    - heptathlon_men

@@ -1,0 +1,13 @@
+# Cache and generated files
+villanova_tf/data/cache.db
+villanova_tf/data/scrape.log
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.env
+
+# Keep these — they're config:
+# villanova_tf/data/bubble_reference.json
+# villanova_tf/data/roster_overrides.json
+# villanova_tf/data/manual_matches.json
